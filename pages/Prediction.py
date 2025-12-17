@@ -242,33 +242,7 @@ def display_prediction(prediction, r2_score, importance_df, input_values):
             unsafe_allow_html=True
         )
     
-    # Community-level improvement suggestions
-    st.subheader("Community-Level Improvement Strategies")
     
-    if prediction > 100:  # Only show for moderate and worse AQI
-        st.markdown("""
-        <div class='suggestion-box'>
-            <h4>Short-term Actions</h4>
-            <ul>
-                <li>Implement odd-even vehicle schemes during high pollution periods</li>
-                <li>Temporarily restrict construction activities</li>
-                <li>Increase public transport frequency</li>
-                <li>Issue public health advisories</li>
-                <li>Set up emergency air quality monitoring</li>
-            </ul>
-        </div>
-        <div class='suggestion-box'>
-            <h4>Long-term Solutions</h4>
-            <ul>
-                <li>Promote electric vehicles and establish charging infrastructure</li>
-                <li>Expand green spaces and urban forests</li>
-                <li>Invest in renewable energy sources</li>
-                <li>Implement stricter industrial emission standards</li>
-                <li>Develop better waste management systems to prevent open burning</li>
-                <li>Improve public transportation networks</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
 
 def get_pollutant_impact_info(feature_name):
     """Return information about a pollutant's impact and mitigation strategies"""

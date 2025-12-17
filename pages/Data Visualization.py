@@ -164,9 +164,75 @@ def load_data():
     except Exception as e:
         raise Exception(f"Error loading data: {str(e)}")
 
+def get_pollutant_impact_info(feature_name):
+    """Return information about a pollutant's impact and mitigation strategies"""
+    pollutant_info = {
+        'PM2.5': {
+            'description': 'Fine particulate matter less than 2.5 micrometers in diameter that can penetrate deep into the lungs.',
+            'sources': 'Vehicle exhaust, industrial emissions, indoor cooking, dust, and wildfires.',
+            'health_effects': 'Can cause respiratory problems, decreased lung function, aggravated asthma, and heart disease.',
+            'mitigation': 'Use air purifiers with HEPA filters, avoid outdoor activities during high pollution days, proper ventilation when cooking, and reduce use of wood-burning stoves.'
+        },
+        'PM10': {
+            'description': 'Coarse particulate matter between 2.5 and 10 micrometers in diameter.',
+            'sources': 'Road dust, construction sites, industrial processes, and agricultural operations.',
+            'health_effects': 'Can cause irritation of the eyes, nose, and throat, as well as respiratory issues.',
+            'mitigation': 'Reduce dust sources, use dust masks when in construction areas, and keep windows closed during high dust conditions.'
+        },
+        'NO': {
+            'description': 'Nitric oxide, a reactive air pollutant.',
+            'sources': 'Combustion processes, particularly in vehicles and power plants.',
+            'health_effects': 'Contributes to respiratory problems and can convert to NO2 in the atmosphere.',
+            'mitigation': 'Use of catalytic converters, improved combustion technology, and reducing vehicle emissions.'
+        },
+        'NO2': {
+            'description': 'Nitrogen dioxide, a highly reactive gas with a pungent odor.',
+            'sources': 'Vehicle exhaust, power plants, and industrial processes.',
+            'health_effects': 'Can cause respiratory inflammation, reduced lung function, and increased sensitivity to respiratory infections.',
+            'mitigation': 'Promote public transportation, use electric vehicles, and improve industrial emission controls.'
+        },
+        'NOx': {
+            'description': 'A collective term for nitrogen oxides (NO and NO2).',
+            'sources': 'Combustion processes in vehicles, power plants, and industrial operations.',
+            'health_effects': 'Contributes to respiratory problems, formation of smog, and acid rain.',
+            'mitigation': 'Use low-NOx burners, selective catalytic reduction systems, and promote cleaner transportation.'
+        },
+        'NH3': {
+            'description': 'Ammonia, a colorless gas with a pungent odor.',
+            'sources': 'Agricultural activities, livestock waste, and fertilizer application.',
+            'health_effects': 'Can cause respiratory irritation and contribute to secondary particle formation.',
+            'mitigation': 'Improve manure management, use covered manure storage, and implement precise fertilizer application.'
+        },
+        'CO': {
+            'description': 'Carbon monoxide, a colorless, odorless toxic gas.',
+            'sources': 'Incomplete combustion in vehicles, residential heating, and industrial processes.',
+            'health_effects': 'Reduces oxygen delivery to body organs, causing headaches, dizziness, and at high concentrations, death.',
+            'mitigation': 'Regular vehicle maintenance, proper ventilation of combustion sources, and use of carbon monoxide detectors.'
+        },
+        'SO2': {
+            'description': 'Sulfur dioxide, a colorless gas with a strong odor.',
+            'sources': 'Burning of fossil fuels containing sulfur, particularly in power plants and industrial processes.',
+            'health_effects': 'Can cause respiratory problems, worsen asthma, and contribute to acid rain.',
+            'mitigation': 'Use low-sulfur fuels, flue gas desulfurization systems, and promote renewable energy sources.'
+        },
+        'O3': {
+            'description': 'Ground-level ozone, a major component of smog.',
+            'sources': 'Formed by chemical reactions between NOx and VOCs in the presence of sunlight.',
+            'health_effects': 'Can trigger asthma attacks, cause throat irritation, and reduce lung function.',
+            'mitigation': 'Reduce VOC emissions, limit outdoor activities during high ozone days, and improve industrial emission controls.'
+        }
+    }
+    
+    return pollutant_info.get(feature_name, {
+        'description': 'Information not available for this pollutant.',
+        'sources': 'Various industrial and natural sources.',
+        'health_effects': 'May cause respiratory and other health issues.',
+        'mitigation': 'Follow local air quality guidelines and reduce exposure.'
+    })
+
 
 try:
-        st.title("Air Quality Analysis")
+        st.title("Data Visulization")
         
         # Load data with error handling
         try:
@@ -288,33 +354,10 @@ try:
                 
 except Exception as e:
     show_error(f"Error generating correlation matrix: {str(e)}")
-
-selected_pollutants = st.multiselect("Select Pollutants", existing_pollutants, 
-                                               default=['PM2.5', 'PM10', 'NO2'] if 'PM2.5' in existing_pollutants else existing_pollutants[:3])
-            
-if selected_pollutants:
-                corr_df = df[selected_pollutants + ['AQI']].corr()
-                fig = px.imshow(corr_df, text_auto=True, aspect="auto", 
-                               title="Correlation Matrix")
-                st.plotly_chart(fig, use_container_width=True)
-                
-                # Add pollutant information section
-                st.markdown("### Pollutant Information")
-                selected_pollutant = st.selectbox("Select a pollutant to learn more", selected_pollutants)
-                
-                pollutant_info = get_pollutant_impact_info(selected_pollutant)
-                st.markdown(
-                    f"""
-                    <div class='impact-factor'>
-                        <h4>{selected_pollutant}</h4>
-                        <p><strong>What is it?</strong> {pollutant_info['description']}</p>
-                        <p><strong>Main sources:</strong> {pollutant_info['sources']}</p>
-                        <p><strong>Health effects:</strong> {pollutant_info['health_effects']}</p>
-                        <p><strong>How to reduce:</strong> {pollutant_info['mitigation']}</p>
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+    
+    
+    
+    
 # Custom 2D/3D visualization
 st.subheader("Custom 2D Visualization")
 try:       

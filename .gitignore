@@ -1,0 +1,8 @@
+# Ignore ML models
+models/
+*.pkl
+*.joblib
+
+# Python cache
+__pycache__/
+*.pyc
